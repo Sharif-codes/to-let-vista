@@ -12,12 +12,18 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
+import { clearCookie } from '../api/auth'
+import axios from 'axios'
+import useAxiosPublic from '../hooks/useAxiosPublic'
+import { useNavigate } from 'react-router-dom'
+
 
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic= useAxiosPublic()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -41,9 +47,12 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email)
   }
 
-  const logOut = () => {
+  const logOut =() => {
     setLoading(true)
+    // await clearCookie()
+    
     return signOut(auth)
+
   }
 
   const updateUserProfile = (name, photo) => {
@@ -57,13 +66,26 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
+      if (currentUser) {
+        const userInfo = { email: currentUser.email }
+        axiosPublic.post('/jwt', userInfo)
+          .then(res => {
+            console.log(res.data);
+            if (res.data.token) {
+              localStorage.setItem('access-token', res.data.token)
+            }
+          })
+      } else {
+        console.log('no user');
+        localStorage.removeItem('access-token');
+      }
       console.log('CurrentUser-->', currentUser)
       setLoading(false)
     })
     return () => {
       return unsubscribe()
     }
-  }, [])
+  }, [axiosPublic])
 
   const authInfo = {
     user,
