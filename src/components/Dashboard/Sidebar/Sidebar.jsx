@@ -105,7 +105,7 @@ const Sidebar = () => {
                                     <MenuItem
                                         icon={BsHouseCheck}
                                         label='Booked Rooms'
-                                        address='/dashboard/bookings'
+                                        address='/dashboard/allBookings'
                                     />
                                     <MenuItem
                                         icon={BsGraphUp}
@@ -131,7 +131,7 @@ const Sidebar = () => {
                                     <MenuItem
                                         icon={BsHouseCheck}
                                         label='Bookings'
-                                        address='/dashboard/bookings'
+                                        address='/dashboard/bookRequest'
                                     ></MenuItem>
                                     <MenuItem
                                         icon={BsGraphUp}
@@ -153,7 +153,7 @@ const Sidebar = () => {
                                 <MenuItem
                                 icon={FaHistory}
                                 label='Payment History'
-                                address=''
+                                address='/dashboard/memberPayment'
                                 ></MenuItem>
                             </nav>
                             

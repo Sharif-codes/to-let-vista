@@ -15,7 +15,7 @@ const BookingTable = ({bookings,index}) => {
             <td>{bookings.category}</td>
             <td>{bookings.type}</td>
             <td>{bookings.rent}Tk.</td>
-            <td>{bookings.status==="requested"?<><button onClick={()=>handleAcceptReq(bookings._id)} className="btn btn-success">Accept</button>  <button className="btn btn-secondary">Reject</button></>: "Request accepted"}</td>
+            <td>{bookings.status==="accepted"? <p className="text-blue-500 font-semibold">Pending for Payment</p> : <p className="text-green-500 font-semibold">Booking complete</p> }</td>
         </tr>
     );
 };

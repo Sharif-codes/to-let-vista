@@ -18,6 +18,8 @@ import ToLetRequest from '../pages/Dashboard/AdminPage/ToLetRequest/ToLetRequest
 import BookingDetails from '../pages/Dashboard/AdminPage/AllBookings/BookingDetails'
 import Profile from '../pages/Dashboard/CommonPage/Profile/Profile'
 import Payment from '../components/Payment/Payment'
+import MyPayments from '../pages/Dashboard/MemberPage/MyPayments/MyPayments'
+import AcceptedBookings from '../pages/Dashboard/AdminPage/AllAcceptedBooking/acceptedBookings'
 
 export const router = createBrowserRouter([
   {
@@ -73,7 +75,10 @@ export const router = createBrowserRouter([
         path: 'bookRequest',
         element: <BookRequest></BookRequest>
       },
-     
+      {
+        path:'allBookings',
+        element: <AcceptedBookings></AcceptedBookings>
+      },
       //member routes
       {
         path:  'bookings',
@@ -83,11 +88,16 @@ export const router = createBrowserRouter([
        path: "payment",
        element: <Payment></Payment>
       },
+      {
+        path: "memberPayment",
+        element: <MyPayments></MyPayments>
+      },
       //common route
       {
         path: "profile",
         element: <Profile></Profile>
-      }
+      },
+      
     ]
   }
 ])

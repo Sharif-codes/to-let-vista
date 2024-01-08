@@ -70,7 +70,7 @@ const CheckoutForm = ({ price, property }) => {
           name: user?.displayName,
           price: price,
           TransactionId: paymentIntent.id,
-          time: paymentIntent.created
+          time: paymentIntent.created,
         }
         axiosSecure.post('/payment', paymentInfo)
         .then(res=> {

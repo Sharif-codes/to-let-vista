@@ -32,7 +32,7 @@ const Rooms = () => {
         setSearchCity(selectedCity)
         console.log("search value:", selectedCity);
     }
-
+console.log("selected category: ", category);
     useEffect(() => {
         setLoader(true)
         axiosSecure.get(`/property`)
@@ -42,6 +42,7 @@ const Rooms = () => {
 
                 if (category) {
                     const filteredRoom = data?.filter(room => room.category === category)
+                    setRooms(filteredRoom)
                     if (searchCity) {
                         const filterCity = filteredRoom?.filter(room => room.city === searchCity)
                         setRooms(filterCity)
@@ -51,7 +52,7 @@ const Rooms = () => {
                     }
                     
                 }
-                if (searchCity) {
+                else if (searchCity) {
                     const filterCity = data?.filter(room => room.city === searchCity)
                    
                     if(category)
