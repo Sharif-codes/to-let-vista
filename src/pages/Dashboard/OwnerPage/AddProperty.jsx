@@ -3,6 +3,8 @@ import { imgUpload } from "../../../api/utils";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import Map from "../../../components/Map/Map";
+import { latLng } from "leaflet";
 
 
 const AddProperty = () => {
@@ -10,7 +12,9 @@ const AddProperty = () => {
     const [type, setType] = useState("")
     const [city, setCity] = useState("")
     const [balcony, setBalcony] = useState("")
+    const [propertyDetails, setPropertyDetails]= useState([])
 
+    // console.log(propertyDetails);
     const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
 
@@ -46,13 +50,13 @@ const AddProperty = () => {
             const imageData = await imgUpload(img)
             const image = imageData?.data?.display_url
             const propertydata = {
-                title, category, type, city, location, house, floor, bedrooms, bathrooms, balcony, rent, advance, service, image, host_name: user.displayName, host_pic: user.photoURL, date, host_email: user.email, status
+                title, category, type, city, location, house, floor, bedrooms, bathrooms, balcony, rent, advance, service,image, host_name: user.displayName, host_pic: user.photoURL, date, host_email: user.email, status, propertyDetails
             }
-            console.log(propertydata);
+            // setPropertyDetails(propertydata)
+            console.log("New property: ",propertydata);
             const res = await axiosPublic.post('/ToLetRequest', propertydata)
             if (res.statusText === "OK") {
                 toast.success("Request sent to Admin")
-
             }
         }
         catch (error) {
@@ -221,11 +225,23 @@ const AddProperty = () => {
                         </label>
                         <input name="service" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="in Tk." />
                     </div>
+                    <div className="m-5">
+                        <h2 className="text-lg font-semibold mb-2">Choose Your Location</h2>
+                        <Map
+                        location={propertyDetails.addressLatLng}
+                        onChange={latLng=>{
+                            console.log(latLng);
+                            setPropertyDetails(latLng)
+                            // {...propertyDetails,addressLatLng: latLng }
+                        }}
+                        ></Map>
+                    </div>
                 </div>
                 <button type="submit" className="bg-rose-500 hover:bg-rose-400 text-white font-bold py-2 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded">
                     Add Property
                 </button>
             </form>
+
         </div>
     );
 };

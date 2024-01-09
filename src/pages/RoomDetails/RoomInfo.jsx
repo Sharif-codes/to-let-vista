@@ -5,6 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import useAdmin from "../../hooks/useAdmin";
 import { useEffect, useState } from "react";
 import useBooking from "../../hooks/useBooking";
+import Map from "../../components/Map/Map";
+import ShowMap from "./ShowMap";
 
 /* eslint-disable react/prop-types */
 const RoomInfo = ({ room }) => {
@@ -57,7 +59,8 @@ const RoomInfo = ({ room }) => {
   }
   
   return (
-    <div className='col-span-4 flex flex-col gap-4'>
+    <div className="flex gap-12">
+      <div className='col-span-4 flex flex-col gap-4 w-[60%]'>
       <div className='flex flex-col gap-2'>
         <div
           className='
@@ -96,7 +99,7 @@ const RoomInfo = ({ room }) => {
       </div>
       <hr />
       <h2 className="text-lg font-semibold">Specification</h2>
-      <div className="flex gap-24">
+      <div className="flex gap-3">
         <p className="font-light text-neutral-500">{room.bedrooms} rooms</p>
         <p className="font-light text-neutral-500">Bedrooms- {room?.bedrooms}</p>
         <p className="font-light text-neutral-500">Bathrooms- {room?.bathrooms}</p>
@@ -104,7 +107,7 @@ const RoomInfo = ({ room }) => {
       </div>
       <hr />
       <h2 className="text-lg font-semibold">Location Info</h2>
-      <div className="flex gap-24">
+      <div className="flex gap-3">
         <p className="font-light text-neutral-500">City- {room?.city}</p>
         <p className="font-light text-neutral-500">Location- {room?.location}</p>
         <p className="font-light text-neutral-500">House- {room?.house}</p>
@@ -113,7 +116,7 @@ const RoomInfo = ({ room }) => {
       <hr />
 
       <h2 className="text-lg font-semibold ">Rent Info</h2>
-      <div className="flex gap-24">
+      <div className="flex gap-3">
         <p className="font-light text-neutral-500">Rent- {room?.rent}</p>
         <p className="font-light text-neutral-500">Advance- {room?.advance} Month</p>
         <p className="font-light text-neutral-500">Service charge- {room?.service}</p>
@@ -164,6 +167,10 @@ const RoomInfo = ({ room }) => {
           <button>close</button>
         </form>
       </dialog>
+    </div>
+    <div className="flex items-center justify-center w-[40%]">
+      <ShowMap room={room}></ShowMap>
+    </div>
     </div>
   )
 }

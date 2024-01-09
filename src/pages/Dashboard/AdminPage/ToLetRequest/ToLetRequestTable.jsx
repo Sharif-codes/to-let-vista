@@ -6,7 +6,7 @@ const ToLetRequestTable = ({toLet,index,refetch}) => {
     const axiosSecure=useAxiosSecure()
     const handleAcceptReq= async (id)=>{
         const res= await axiosSecure.post(`/acceptToLetRequest/${id}`)
-        if(res.data.modifiedCount> 0)
+        if(res.data)
         {
             toast.success("To-Let added successfully!")
            
@@ -16,7 +16,7 @@ const ToLetRequestTable = ({toLet,index,refetch}) => {
 const handleRejectReq= async (id)=>
 {
     const res= await axiosSecure.post(`/rejectToLetRequest/${id}`)
-    if(res.data.deletedCount>0)
+    if(res.data)
     {
         toast.success("To-Let request rejected")
     }
