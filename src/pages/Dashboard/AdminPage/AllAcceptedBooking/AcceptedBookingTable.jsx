@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 
@@ -13,6 +14,7 @@ const AcceptedBookingTable = ({booking, index}) => {
             <td>{booking?.host_email}</td>
             <td>{booking?.claimer}</td>
             <td>{booking?.rent} TK</td>
+           <Link to="/dashboard/report" state={booking}> <td><button className="btn btn-primary">See Details</button></td></Link>
         </tr>
     );
 };

@@ -109,7 +109,7 @@ const Sidebar = () => {
                                     ></MenuItem>
                                     <MenuItem
                                         icon={BsHouseCheck}
-                                        label='Booked Rooms'
+                                        label='Booked Property'
                                         address='/dashboard/allBookings'
                                     />
                                     <MenuItem

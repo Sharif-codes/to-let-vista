@@ -26,6 +26,7 @@ import Ownership from '../pages/Dashboard/MemberPage/Ownership/Ownership'
 import OwnershipRequest from '../pages/Dashboard/AdminPage/OwnershipRequest/OwnershipRequest'
 import UserManage from '../pages/Dashboard/AdminPage/UserManage/UserManage'
 import UpdateProperty from '../pages/Dashboard/CommonPage/Profile/UpdateProperty/UpdateProperty'
+import BookingReport from '../pages/Dashboard/AdminPage/AllAcceptedBooking/BookingReport'
 
 
 export const router = createBrowserRouter([
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
       {
         path: "userManage",
         element: <UserManage></UserManage>
+      },
+      {
+        path: "report",
+        element: <BookingReport></BookingReport>
       },
       //owner routes
       {

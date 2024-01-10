@@ -1,40 +1,67 @@
-
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useEffect, useState,useRef } from "react";
+
+import { useReactToPrint } from "react-to-print";
 import toast from "react-hot-toast";
 
-
-const BookingDetails = () => {
-    const navigate= useNavigate()
-    const location = useLocation()
-    const data = location.state
-    console.log(data);
+const BookingReport = () => {
+    const [payment, setPayment] = useState([])
+    const [formattedDateTime, setFormattedDateTime] = useState(null);
     const axiosSecure = useAxiosSecure()
-    const handleAccept = (id) => {
-        axiosSecure.post(`/booking/accept/${id}`)
-            .then(res => {
-                if (res.data.insertedId) {
-                    toast.success("Request Accepted")
-                    navigate("/dashboard/AllBookRequest")
-                }
-              
-            })
-    }
-    const handleReject= (id)=>{
-        axiosSecure.post(`/booking/reject/${id}`)
-        .then(res=>{
-            if(res.data.deletedCount)
-            {
-                toast.success("Rejected Booking request")
-                navigate("/dashboard/AllBookRequest")
-            }
-        })
-    }
+    const location = useLocation();
+    const data = location.state
+   const componentPDF=useRef()
+    axiosSecure.get(`/getBooking/${data?._id}`)
+        .then(res => setPayment(res.data))
+        useEffect(() => {
+            const timestamp = payment?.time * 1000; // Convert seconds to milliseconds
+            const dateObject = new Date(timestamp);
+    
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZoneName: 'short',
+            };
+            const formattedDateTime = dateObject.toLocaleString('en-US', options);
+            setFormattedDateTime(formattedDateTime);
+        }, [payment?.time]);
 
+        const generatePDF= useReactToPrint({
+            content: ()=> componentPDF.current, documentTitle:"Booking_Report",
+            onAfterPrint:()=> toast.success("Report Generated")
+        })
     return (
         <div>
-            
-            <div className=" bg-rose-100 p-5 rounded-lg">
+            <div ref={componentPDF} style={{width:'100%'}}>
+            <div className=" mt-5 bg-rose-100 p-5 rounded-lg">
+                <h2 className="text-center text-2xl font-bold text-rose-600">Booking Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+
+                    <div className="text-center">
+                        <p className="font-semibold bg-purple-400 text-white p-1">Booking ID</p>
+                        <p className="text-sm bg-slate-200 p-3 h-16 ">{payment?.bookingID}</p>
+                    </div>
+
+                    <div className="text-center">
+                        <p className="font-semibold bg-purple-400 text-white">Amount</p>
+                        <p className="text-sm bg-slate-200 p-3 h-16 ">{payment?.price} Tk</p>
+                    </div>
+                    <div className="text-center">
+                        <p className="font-semibold bg-purple-400 text-white">Transaction ID</p>
+                        <p className="text-sm bg-slate-200 p-3 h-16 ">{payment?.TransactionId}</p>
+                    </div>
+                    <div className="text-center">
+                        <p className="font-semibold bg-purple-400 text-white">Date & Time</p>
+                        <p className="text-sm bg-slate-200 p-3 h-16 ">{formattedDateTime}</p>
+                    </div>
+                </div>
+            </div>
+            <div className=" bg-rose-100 mt-5 p-5 rounded-lg">
                 <h2 className="text-center text-2xl font-bold text-rose-600">Property Details</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5">
                     <div className="text-center">
@@ -138,15 +165,12 @@ const BookingDetails = () => {
                 </div>
 
             </div>
-            <h2 className="text-center text-2xl font-bold text-rose-600 my-5">Action</h2>
-            <div className="flex justify-center gap-5">
-
-                <button onClick={() => handleAccept(data?._id)} className="btn btn-success text-white">Accept Request</button>
-                <button onClick={() => handleReject(data?._id)} className="btn btn-secondary">Reject Request</button>
             </div>
-
+            <div className="flex justify-center mt-5">
+                <button onClick={generatePDF} className="btn btn-success">Generate Report</button>
+            </div>
         </div>
     );
 };
 
-export default BookingDetails;
+export default BookingReport;

@@ -18,6 +18,7 @@ const AcceptedBookings = () => {
                     <th>Owner Email</th>
                     <th>Renter Email</th>
                     <th>Monthly Rent</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
