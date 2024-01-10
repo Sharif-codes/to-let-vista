@@ -28,7 +28,7 @@ const FindButtonAndMarker = ({ readOnly, location, onChange }) => {
 
       if (callOnChange && position) {
         onChange(position);
-        // setCallOnChange(false); // Set the flag to prevent further calls
+        setCallOnChange(false); // Set the flag to prevent further calls
       }
     }, [map, onChange, position, readOnly, callOnChange]);
 
@@ -40,7 +40,7 @@ const FindButtonAndMarker = ({ readOnly, location, onChange }) => {
             className="find_location"
             onClick={() => {
               map.locate();
-              // setCallOnChange(true); // Reset the flag when locating
+              setCallOnChange(true); // Reset the flag when locating
             }}
           >
             Find My Location
@@ -51,7 +51,7 @@ const FindButtonAndMarker = ({ readOnly, location, onChange }) => {
             eventHandlers={{
               dragend: (e) => {
                 setPosition(e.target.getLatLng());
-                // setCallOnChange(true); // Reset the flag when dragging
+                setCallOnChange(true); // Reset the flag when dragging
               },
             }}
             position={position}

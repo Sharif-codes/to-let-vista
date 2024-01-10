@@ -4,7 +4,7 @@ import useAllProperty from "../../../../hooks/useAllProperty";
 
 
 const AllProperty = () => {
-   const allProperties= useAllProperty()
+   const [allProperties,refetch]= useAllProperty()
    console.log(allProperties);
     return (
         <div className="overflow-x-auto">
@@ -12,6 +12,7 @@ const AllProperty = () => {
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>city</th>
                         <th>House</th>
                         <th>Floor</th>
                         <th>Category</th>
@@ -23,8 +24,7 @@ const AllProperty = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {allProperties?.map((item,idx)=><AllpropertyTable key={idx} property={item} index={idx}></AllpropertyTable>)}
-                    
+                    {allProperties?.map((item,idx)=><AllpropertyTable key={idx} property={item} index={idx} refetch={refetch}></AllpropertyTable>)}
                     </tbody>
 
             </table>

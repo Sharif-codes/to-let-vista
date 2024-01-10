@@ -75,6 +75,7 @@ const CheckoutForm = ({ price, property }) => {
         axiosSecure.post('/payment', paymentInfo)
         .then(res=> {
             console.log(res);
+            toast.success("Payment Recieved Successfully!")
             navigate("/dashboard/bookings")
         })
       }

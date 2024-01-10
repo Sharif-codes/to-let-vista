@@ -4,14 +4,14 @@ import useAxiosSecure from "./useAxiosSecure";
 
 const useAllProperty = () => {
     const axiosSecure= useAxiosSecure()
-    const {data}=useQuery({
+    const {data,refetch}=useQuery({
         queryKey: ["allProperty"],
         queryFn: async ()=>{
             const res= await axiosSecure.get('/allProperty')
             return res.data
         }
     })
-    return data;
+    return [data,refetch];
 };
 
 export default useAllProperty;

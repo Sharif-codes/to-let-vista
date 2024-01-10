@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 
 const MyPaymentTable = ({ payment, index }) => {
-    const [formattedDateTime, setFormattedDateTime] = useState('');
-    const date = new Date(payment?.date);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString().slice(-2);
-    const formattedDate = `${day}/${month}/${year}`;
+    const [formattedDateTime, setFormattedDateTime] = useState(null);
+   
 
     useEffect(() => {
-        const timestamp = 1703576033 * 1000; // Convert seconds to milliseconds
+        const timestamp = payment?.time * 1000; // Convert seconds to milliseconds
         const dateObject = new Date(timestamp);
     
         const options = {
@@ -24,7 +20,7 @@ const MyPaymentTable = ({ payment, index }) => {
     
         const formattedDateTime = dateObject.toLocaleString('en-US', options);
         setFormattedDateTime(formattedDateTime);
-      }, []);
+      }, [payment?.time]);
     
     return (
         <tr>

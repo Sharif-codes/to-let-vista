@@ -1,14 +1,18 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import Map from "../../../../../components/Map/Map";
 import { useState } from "react";
-import { imgUpload } from "../../../api/utils";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
-import useAuth from "../../../hooks/useAuth";
+import useAxiosPublic from "../../../../../hooks/useAxiosPublic";
+import useAuth from "../../../../../hooks/useAuth";
+import { imgUpload } from "../../../../../api/utils";
 import toast from "react-hot-toast";
-import Map from "../../../components/Map/Map";
-import { latLng } from "leaflet";
-import { useNavigate } from "react-router-dom";
 
 
-const AddProperty = () => {
+const UpdateProperty = () => {
+    const location = useLocation();
+    const data = location.state
+    console.log("data",data);
+
+
     const [category, setCategory] = useState("")
     const [type, setType] = useState("")
     const [city, setCity] = useState("")
@@ -48,7 +52,7 @@ const AddProperty = () => {
         const img3 = form.image3.files[0]
         const house = form.house.value
         const floor = form.floor.value
-        const status = "requested"
+        const status = "available"
         const date = Date.now()
         try {
             const imageData1 = await imgUpload(img1)
@@ -65,16 +69,19 @@ const AddProperty = () => {
             }
             // setPropertyDetails(propertydata)
             console.log("New property: ",propertydata);
-            const res = await axiosPublic.post('/ToLetRequest', propertydata)
-            if (res.statusText === "OK") {
-                toast.success("Request sent to Admin")
+            const res = await axiosPublic.patch(`/updateProperty/${data._id}`, propertydata)
+            console.log(res.data);
+            if (res.data.modifiedCount>0) {
+                toast.success("Property Updated!")
                 navigate("/dashboard/myProperty")
             }
+            console.log(res.data);
         }
         catch (error) {
             console.log(error.message);
         }
     }
+
     return (
         <div>
             <form onSubmit={handleAddProperty} className="w-full max-w-xl">
@@ -83,7 +90,7 @@ const AddProperty = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                             Title
                         </label>
-                        <input name="title" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="give a descent title for advertisement" />
+                        <input name="title" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder="give a descent title for advertisement" defaultValue={data.title} />
 
                     </div>
 
@@ -97,7 +104,7 @@ const AddProperty = () => {
                             Category
                         </label>
                         <div className="relative">
-                            <select onChange={handleCategory} name="category" className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            <select onChange={handleCategory} name="category" className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" defaultValue={data.category}>
                                 <option disabled selected>Choose Category</option>
                                 <option>Family</option>
                                 <option>Sublet</option>
@@ -191,7 +198,7 @@ const AddProperty = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                             Location
                         </label>
-                        <input name="location" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Enter area name and road no." />
+                        <input name="location" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Enter area name and road no." defaultValue={data.location}/>
 
                     </div>
                 </div>
@@ -200,13 +207,13 @@ const AddProperty = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             House
                         </label>
-                        <input name="house" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="House No." />
+                        <input name="house" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="House No." defaultValue={data.house} />
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Floor
                         </label>
-                        <input name="floor" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Floor No." />
+                        <input name="floor" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Floor No." defaultValue={data.floor} />
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
@@ -214,13 +221,13 @@ const AddProperty = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Bedrooms
                         </label>
-                        <input name="bedrooms" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="no. of bedrooms" />
+                        <input name="bedrooms" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="no. of bedrooms" defaultValue={data.bedrooms} />
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Bathrooms
                         </label>
-                        <input name="bathrooms" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="no. of bathrooms" />
+                        <input name="bathrooms" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="no. of bathrooms" defaultValue={data.bathrooms} />
                     </div>
 
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -246,19 +253,19 @@ const AddProperty = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Room Rent
                         </label>
-                        <input name="rent" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="in Tk" />
+                        <input name="rent" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="in Tk" defaultValue={data.rent} />
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Min Advance (month)
                         </label>
-                        <input name="advance" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="No.of month" />
+                        <input name="advance" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="No.of month" defaultValue={data.advance} />
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             service charge
                         </label>
-                        <input name="service" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="in Tk." />
+                        <input name="service" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="in Tk." defaultValue={data.service}/>
                     </div>
                     <div className="m-5">
                         <h2 className="text-lg font-semibold mb-2">Choose Your Location</h2>
@@ -272,7 +279,7 @@ const AddProperty = () => {
                     </div>
                 </div>
                 <button type="submit" className="bg-rose-500 hover:bg-rose-400 text-white font-bold py-2 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded">
-                    Add Property
+                    Update Property
                 </button>
             </form>
 
@@ -280,4 +287,4 @@ const AddProperty = () => {
     );
 };
 
-export default AddProperty;
+export default UpdateProperty;

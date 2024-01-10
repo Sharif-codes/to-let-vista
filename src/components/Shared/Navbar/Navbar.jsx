@@ -2,6 +2,7 @@
 import Container from '../Container'
 import MenuDropdown from './MenuDropdown'
 import Logo from '../Logo'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -10,7 +11,12 @@ const Navbar = () => {
         <Container>
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
-            <Logo></Logo>
+            {/* <Logo></Logo> */}
+           <Link to="/"> <div className="flex-1 flex items-center">
+                <img className="w-10" src="/logo-casa.svg" alt="" />
+                <p className="ml-2 hidden md:block
+                 text-lg md:text-xl font-semibold">To-let<span className="text-info ml-1">Hub</span></p>
+            </div></Link>
             {/* Dropdown Menu */}
             <MenuDropdown />
           </div>

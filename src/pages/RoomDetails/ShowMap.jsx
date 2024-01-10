@@ -18,7 +18,7 @@ const ShowMap = ({ readOnly, location, onChange, room }) => {
     <div className="containerBox">
       <MapContainer
         className="map"
-        center={[0,0]}
+        center={[room?.propertyDetails?.lat,room?.propertyDetails?.lng]}
         zoom={1}
         dragging={!readOnly}
         touchZoom={!readOnly}

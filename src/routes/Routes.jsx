@@ -20,6 +20,13 @@ import Profile from '../pages/Dashboard/CommonPage/Profile/Profile'
 import Payment from '../components/Payment/Payment'
 import MyPayments from '../pages/Dashboard/MemberPage/MyPayments/MyPayments'
 import AcceptedBookings from '../pages/Dashboard/AdminPage/AllAcceptedBooking/acceptedBookings'
+import OwnerStat from '../pages/Dashboard/OwnerPage/OwnerStat/OwnerStat'
+import AdminStat from '../pages/Dashboard/AdminPage/AdminStats/AdminStat'
+import Ownership from '../pages/Dashboard/MemberPage/Ownership/Ownership'
+import OwnershipRequest from '../pages/Dashboard/AdminPage/OwnershipRequest/OwnershipRequest'
+import UserManage from '../pages/Dashboard/AdminPage/UserManage/UserManage'
+import UpdateProperty from '../pages/Dashboard/CommonPage/Profile/UpdateProperty/UpdateProperty'
+
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +69,18 @@ export const router = createBrowserRouter([
         path: 'bookingDetails',
         element: <BookingDetails></BookingDetails>
       },
+      {
+        path: 'adminStat',
+        element: <AdminStat></AdminStat>
+      },
+      {
+        path: "ownershipReq",
+        element: <OwnershipRequest></OwnershipRequest>
+      },
+      {
+        path: "userManage",
+        element: <UserManage></UserManage>
+      },
       //owner routes
       {
         path:'addProperty',
@@ -79,6 +98,10 @@ export const router = createBrowserRouter([
         path:'allBookings',
         element: <AcceptedBookings></AcceptedBookings>
       },
+      {
+        path: 'ownerStat',
+        element: <OwnerStat></OwnerStat>
+      },
       //member routes
       {
         path:  'bookings',
@@ -92,11 +115,23 @@ export const router = createBrowserRouter([
         path: "memberPayment",
         element: <MyPayments></MyPayments>
       },
+      {
+        path:"ownershipApply",
+        element: <Ownership></Ownership>
+      },
       //common route
       {
-        path: "profile",
+        index: true,
         element: <Profile></Profile>
       },
+      {
+        path:"profile",
+        element: <Profile></Profile>
+      },
+      {
+        path: "updateProperty",
+        element: <UpdateProperty></UpdateProperty>
+      }
       
     ]
   }

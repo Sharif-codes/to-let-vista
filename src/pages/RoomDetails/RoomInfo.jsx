@@ -49,7 +49,7 @@ const RoomInfo = ({ room }) => {
     const nid = form.nid.value
     const profession = form.profession.value
     const claimerInfo = { name, address, mobile, nid, profession }
-    const bookingData = { roomID: _id, title, category, type, city, location, house, floor, bedrooms, bathrooms, rent, advance, service, image, host_name, host_pic, host_email, status, claimer: user?.email, claimerInfo,posted_date:formattedDate }
+    const bookingData = { roomID: _id, title, category, type, city, location, house, floor, bedrooms, bathrooms, rent, advance, service, host_name, host_pic, host_email, status, claimer: user?.email, claimerInfo,posted_date:formattedDate }
     console.log(bookingData);
     const res = await axiosSecure.post('/bookingRequest', bookingData)
     if (res.data.insertedId) {
@@ -100,26 +100,26 @@ const RoomInfo = ({ room }) => {
       <hr />
       <h2 className="text-lg font-semibold">Specification</h2>
       <div className="flex gap-3">
-        <p className="font-light text-neutral-500">{room.bedrooms} rooms</p>
-        <p className="font-light text-neutral-500">Bedrooms- {room?.bedrooms}</p>
-        <p className="font-light text-neutral-500">Bathrooms- {room?.bathrooms}</p>
-        <p className="font-light text-neutral-500">Balcony- {room?.balcony}</p>
+        <p className="font-light ">{room?.bedrooms} rooms</p>
+        <p className="font-light ">Bedrooms- {room?.bedrooms}</p>
+        <p className="font-light ">Bathrooms- {room?.bathrooms}</p>
+        <p className="font-light ">Balcony- {room?.balcony}</p>
       </div>
       <hr />
       <h2 className="text-lg font-semibold">Location Info</h2>
       <div className="flex gap-3">
-        <p className="font-light text-neutral-500">City- {room?.city}</p>
-        <p className="font-light text-neutral-500">Location- {room?.location}</p>
-        <p className="font-light text-neutral-500">House- {room?.house}</p>
-        <p className="font-light text-neutral-500">Floor- {room?.floor}</p>
+        <p className="font-light ">City- {room?.city}</p>
+        <p className="font-light ">Location- {room?.location}</p>
+        <p className="font-light ">House- {room?.house}</p>
+        <p className="font-light ">Floor- {room?.floor}</p>
       </div>
       <hr />
 
       <h2 className="text-lg font-semibold ">Rent Info</h2>
       <div className="flex gap-3">
-        <p className="font-light text-neutral-500">Rent- {room?.rent}</p>
-        <p className="font-light text-neutral-500">Advance- {room?.advance} Month</p>
-        <p className="font-light text-neutral-500">Service charge- {room?.service}</p>
+        <p className="font-light ">Rent- {room?.rent}</p>
+        <p className="font-light ">Advance- {room?.advance} Month</p>
+        <p className="font-light ">Service charge- {room?.service}</p>
       </div>
 
       {/* Modal starts here */}

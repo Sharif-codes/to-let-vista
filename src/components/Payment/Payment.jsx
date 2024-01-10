@@ -20,6 +20,7 @@ const Payment = () => {
                     {/* <p className="bg-green-200">Rent: {paymentInfo.rent} Rent</p>
                 <p>Service Charge: {paymentInfo.service} Tk</p>
                 <p>Advance: {paymentInfo.advance} Month</p> */}
+                <p className="text-2xl text-center">Make Payment</p>
                     <p className="bg-green-200 text-rose-500 w-fit px-2">Payable amount: {Total} TK</p>
                     <div className="mt-2">
                         <Elements stripe={stripepromise}>
